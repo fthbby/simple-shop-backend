@@ -2,7 +2,8 @@ const Product = require("../models/product");
 
 const createProduct = async (req, res, next) => {
   try {
-    const { title, price, category, description } = req.body;
+    const { title, price, category, description, userId } = req.body;
+
     if (!title) return res.json({ msg: "missing title" });
 
     const product = await Product.create({
@@ -10,10 +11,11 @@ const createProduct = async (req, res, next) => {
       price,
       category,
       description,
+      user: userId,
     });
 
     if (product) {
-      return res.json({ success: true, msg: "Product created", product });
+      return res.json({ success: true, data: product });
     }
 
     return res.json({ msg: "failed to create product" });
@@ -36,6 +38,23 @@ const getAll = async (req, res, next) => {
     console.log("err:", err);
   }
 };
+
+const getAllByUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id
+
+    const data = await Product.find({user:userId});
+
+    if (data) {
+      return res.json({ success: true, data });
+    }
+
+    return res.json({ success: false, msg: "failed to get all product" });
+  } catch (err) {
+    console.log("err:", err);
+  }
+};
+
 
 const update = async (req, res, next) => {
   try {
@@ -82,4 +101,4 @@ const destroy = async (req, res, next) => {
   }
 };
 
-module.exports = { createProduct, getAll, update, destroy };
+module.exports = { createProduct, getAll, update, destroy, getAllByUser };
