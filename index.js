@@ -9,6 +9,8 @@ app.use(cors());
 app.use(bodyParser.json());
 const mongoose = require("mongoose");
 const productRoutes = require("./src/routes/product");
+const authRoutes = require('./src/routes/auth')
+
 
 const server = app.listen(process.env.PORT, () => {
   console.log(`server started on port: ${process.env.PORT}`);
@@ -30,8 +32,6 @@ mongoose
     console.log("DB not connected", err.message);
   });
 
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
 
 app.use("/api/product", productRoutes);
+app.use("/api/auth", authRoutes);

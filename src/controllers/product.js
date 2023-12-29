@@ -2,11 +2,14 @@ const Product = require("../models/product");
 
 const createProduct = async (req, res, next) => {
   try {
-    const { title } = req.body;
+    const { title, price, category, description } = req.body;
     if (!title) return res.json({ msg: "missing title" });
 
     const product = await Product.create({
       title,
+      price,
+      category,
+      description,
     });
 
     if (product) {
