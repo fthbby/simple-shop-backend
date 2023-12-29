@@ -55,4 +55,28 @@ const update = async (req, res, next) => {
   } catch (err) {}
 };
 
-module.exports = { createProduct, getAll, update};
+const destroy = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.json({ msg: "NO ID TO DELETE" + id });
+    }
+
+    const data = await Product.findOne({ _id: id });
+
+    if (!data)
+      return res.json({ msg: "Couldnt find product with matching ID" + id });
+
+    const deleted = await Product.findOneAndDelete({ _id: id });
+
+    return res.json({
+      success: true,
+      deleted,
+    });
+  } catch (err) {
+    console.log("err:", err);
+  }
+};
+
+module.exports = { createProduct, getAll, update, destroy };
