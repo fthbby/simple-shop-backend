@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 
-const statusTypes = ["active", "draft"];
-
 const productSchema = new mongoose.Schema({
   title: {
     type: String,
