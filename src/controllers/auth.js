@@ -5,7 +5,6 @@ const register = async (req, res, next) => {
   try {
     const { email, password, firstName, lastName } = req.body;
 
-
     const emailCheck = await User.findOne({ email });
 
     if (emailCheck) {
@@ -23,11 +22,35 @@ const register = async (req, res, next) => {
 
     delete newUser.password;
 
-    return res.json({ success: true, data:newUser });
+    return res.json({ success: true, data: newUser });
   } catch (err) {
     console.log("err:", err);
   }
 };
 
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
 
-module.exports = {register}
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.json({ msg: "no user found with this email" });
+    }
+
+    const passwordCheck = await bcrypt.compare(password, user.password);
+
+    if (!passwordCheck) {
+      return res.json({ msg: "password incorrect" });
+    }
+
+    delete user.password;
+
+    return res.json({ success: true, data: user });
+  } catch (err) {
+    console.log("err:", err);
+    next();
+  }
+};
+
+module.exports = { register, login };
