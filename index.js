@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 const mongoose = require("mongoose");
 const productRoutes = require("./src/routes/product");
 const authRoutes = require('./src/routes/auth')
-
+const userRoutes = require('./src/routes/user')
 
 const server = app.listen(process.env.PORT, () => {
   console.log(`server started on port: ${process.env.PORT}`);
@@ -35,3 +35,4 @@ mongoose
 
 app.use("/api/product", productRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);

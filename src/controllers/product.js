@@ -41,9 +41,9 @@ const getAll = async (req, res, next) => {
 
 const getAllByUser = async (req, res, next) => {
   try {
-    const userId = req.params.id
+    const userId = req.params.id;
 
-    const data = await Product.find({user:userId});
+    const data = await Product.find({ user: userId });
 
     if (data) {
       return res.json({ success: true, data });
@@ -55,6 +55,27 @@ const getAllByUser = async (req, res, next) => {
   }
 };
 
+const getById = async (req, res, next) => {
+  try {
+    
+    const { id } = req.params;
+
+    if (!id) {
+      return res.json({ msg: "missing ID" + id});
+    }
+    // const data = await Product.findOne({ _id: id });
+    const data = await Product.findOne({ _id: id }).populate('user');
+
+    if (data) {
+      return res.json({
+        success: true,
+        data,
+      });
+    }
+
+    return res.json({ success: false , msg:'fail to grab the product'});
+  } catch (err) {}
+};
 
 const update = async (req, res, next) => {
   try {
@@ -101,4 +122,11 @@ const destroy = async (req, res, next) => {
   }
 };
 
-module.exports = { createProduct, getAll, update, destroy, getAllByUser };
+module.exports = {
+  createProduct,
+  getAll,
+  update,
+  destroy,
+  getAllByUser,
+  getById,
+};
