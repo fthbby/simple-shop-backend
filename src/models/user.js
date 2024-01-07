@@ -23,7 +23,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isAvatarSet: {
+    type: Boolean,
+    default: false,
+  },
+  image: {
+    type: String,
+    default: "",
+  },
 });
 
-
-module.exports = mongoose.model("User", userSchema)
+module.exports = mongoose.model("User", userSchema);
