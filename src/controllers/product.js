@@ -2,7 +2,7 @@ const Product = require("../models/product");
 
 const createProduct = async (req, res, next) => {
   try {
-    const { title, price, category, description, userId } = req.body;
+    const { title, price, category, description, userId, image } = req.body;
 
     if (!title) return res.json({ msg: "missing title" });
 
@@ -12,6 +12,7 @@ const createProduct = async (req, res, next) => {
       category,
       description,
       user: userId,
+      image
     });
 
     if (product) {
@@ -24,6 +25,7 @@ const createProduct = async (req, res, next) => {
     console.log("err :", err);
   }
 };
+
 
 const getAll = async (req, res, next) => {
   try {

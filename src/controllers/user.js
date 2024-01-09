@@ -59,6 +59,7 @@ const uploadAvatar = async (req, res, next) => {
 const deleteAvatar = async (req, res, next) => {
   try {
     const { id } = req.body;
+    console.log("req.body:", req.body);
 
     if (!id) {
         return res.json({msg:'no id'})
