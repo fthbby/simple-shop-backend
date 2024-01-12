@@ -62,14 +62,14 @@ const deleteAvatar = async (req, res, next) => {
     console.log("req.body:", req.body);
 
     if (!id) {
-        return res.json({msg:'no id'})
+      return res.json({ msg: "no id" });
     }
     const user = await User.findOne({ _id: id });
     if (!user) {
-      return res.json({ msg: "no user found" + req.body});
+      return res.json({ msg: "no user found" + req.body });
     }
 
-    const userId = user._id
+    const userId = user._id;
     const userData = await User.findByIdAndUpdate(userId, {
       isAvatarSet: false,
       image: null,
@@ -84,4 +84,31 @@ const deleteAvatar = async (req, res, next) => {
   } catch (err) {}
 };
 
-module.exports = { getAll, getUserById, uploadAvatar, deleteAvatar };
+const updateUser = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.json({ msg:'hello' + req.body});
+    }
+
+    const user = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.json({ msg: "no user found" });
+    }
+
+    const userId = user._id;
+
+    const userData = await User.findOneAndUpdate(userId, req.body);
+
+    return res.json({
+      success:true,
+      userData
+    })
+
+  } catch (err) {
+    next(err)
+  }
+};
+module.exports = { getAll, getUserById, uploadAvatar, deleteAvatar, updateUser };
